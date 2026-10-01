@@ -1,0 +1,2035 @@
+/* ===========================
+   RESILIO — GLOBAL RESET & VARS
+   =========================== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --urgent: #FF3B30;
+  --available: #32D74B;
+  --offline: #636366;
+  --warning: #FF9F0A;
+  --bg: #0A0A0F;
+  --bg2: #111118;
+  --bg3: #18181F;
+  --surface: #1C1C26;
+  --border: rgba(255,255,255,0.08);
+  --text: #F0F0F5;
+  --text-dim: #8888A0;
+  --accent: #FF3B30;
+  --accent2: #32D74B;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+  --font-ui: 'Barlow Condensed', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: 16px;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+/* ===========================
+   SCROLLBAR
+   =========================== */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+/* ===========================
+   NAV
+   =========================== */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 60px;
+  background: rgba(10,10,15,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+  gap: 2rem;
+  z-index: 100;
+  transition: all 0.3s;
+}
+
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  letter-spacing: 0.1em;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.logo-pulse {
+  width: 10px; height: 10px;
+  background: var(--available);
+  border-radius: 50%;
+  animation: pulse-glow 1.5s ease-in-out infinite;
+}
+
+.nav-status {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--available);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex: 1;
+}
+
+.mesh-dot {
+  width: 7px; height: 7px;
+  background: var(--available);
+  border-radius: 50%;
+  display: inline-block;
+  animation: pulse-glow 1.2s ease-in-out infinite;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav-links a {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--text); }
+
+/* START OF RAFI'S CODE (.nav-auth-link) */
+.nav-auth-link {
+  background: var(--accent);
+  color: #fff;
+  padding: 0.4rem 1rem;
+  border-radius: 2px;
+  transition: all 0.2s;
+  animation: urgent-pulse 2s ease-in-out infinite;
+}
+
+.nav-auth-link:hover {
+  background: #FF2D1F;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(255,59,48,0.3);
+}
+/* END OF RAFI'S CODE */
+
+/* START OF RUBAI'S CODE (.crisis-btn) */
+.crisis-btn {
+  background: var(--urgent);
+  color: #fff;
+  border: none;
+  padding: 0.4rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.2s;
+  animation: urgent-pulse 2s ease-in-out infinite;
+}
+
+.crisis-btn:hover {
+  background: #ff1a0e;
+  transform: scale(1.04);
+}
+/* END OF RUBAI'S CODE */
+
+/* ===========================
+   HERO
+   =========================== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 6rem 4rem 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,59,48,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,59,48,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: grid-drift 20s linear infinite;
+}
+
+@keyframes grid-drift {
+  0% { background-position: 0 0; }
+  100% { background-position: 40px 40px; }
+}
+
+.hero-content {
+  max-width: 800px;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-tag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: var(--available);
+  margin-bottom: 1rem;
+  opacity: 0;
+  animation: fade-up 0.6s 0.2s forwards;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 15vw, 12rem);
+  line-height: 0.9;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  opacity: 0;
+  animation: fade-up 0.7s 0.4s forwards;
+  position: relative;
+}
+
+.hero-title::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: -8px;
+  width: 80px; height: 4px;
+  background: var(--urgent);
+}
+
+.hero-sub {
+  font-family: var(--font-ui);
+  font-size: 1.4rem;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  color: var(--text-dim);
+  margin-top: 1.5rem;
+  text-transform: uppercase;
+  opacity: 0;
+  animation: fade-up 0.7s 0.5s forwards;
+}
+
+.hero-desc {
+  font-size: 1.05rem;
+  color: var(--text-dim);
+  max-width: 500px;
+  margin-top: 1.2rem;
+  line-height: 1.7;
+  opacity: 0;
+  animation: fade-up 0.7s 0.6s forwards;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  opacity: 0;
+  animation: fade-up 0.7s 0.75s forwards;
+}
+
+.btn-primary {
+  background: var(--urgent);
+  color: #fff;
+  border: none;
+  padding: 0.8rem 2rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.2s;
+}
+
+.btn-primary:hover {
+  background: #ff1a0e;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255,59,48,0.4);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 0.8rem 2rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.2s;
+}
+
+.btn-outline:hover {
+  border-color: var(--available);
+  color: var(--available);
+  transform: translateY(-2px);
+}
+
+.hero-stats {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 4rem;
+  position: relative;
+  z-index: 2;
+  opacity: 0;
+  animation: fade-up 0.7s 0.9s forwards;
+}
+
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 1.2rem 2rem;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  min-width: 140px;
+  transition: border-color 0.2s;
+}
+
+.stat-card:hover { border-color: var(--available); }
+.stat-card.urgent { border-color: rgba(255,59,48,0.3); }
+
+.stat-num {
+  font-family: var(--font-display);
+  font-size: 2.6rem;
+  color: var(--text);
+  line-height: 1;
+}
+
+.stat-card.urgent .stat-num { color: var(--urgent); }
+
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+/* ===========================
+   SECTIONS
+   =========================== */
+.section {
+  padding: 5rem 4rem;
+  position: relative;
+}
+
+.dark-section {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.section-header {
+  margin-bottom: 2.5rem;
+}
+
+.section-header.light .section-tag { color: var(--available); }
+.section-header.light h2 { color: var(--text); }
+
+.section-tag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  color: var(--urgent);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.section-header h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  letter-spacing: 0.04em;
+  color: var(--text);
+}
+
+/* ==========================================
+   START OF SHOAIB'S CODE (Resource Dashboard Styles)
+   ========================================== */
+/* ===========================
+   FILTER BAR
+   =========================== */
+.filter-bar {
+  display: flex;
+  gap: 0.6rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  background: var(--surface);
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  padding: 0.4rem 1.2rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.2s;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+  background: var(--urgent);
+  color: #fff;
+  border-color: var(--urgent);
+}
+
+/* ===========================
+   DASHBOARD GRID
+   =========================== */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+/* MAP PANEL */
+.map-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.map-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 1.2rem;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+}
+
+.map-live {
+  color: var(--available);
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+.map-canvas {
+  position: relative;
+  height: 360px;
+}
+
+#nodeMap {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.map-legend {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  background: rgba(10,10,15,0.8);
+  padding: 0.5rem 0.8rem;
+  border-radius: 2px;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-dim);
+}
+
+.legend-item { display: flex; align-items: center; gap: 0.4rem; }
+
+.dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dot.red { background: var(--urgent); }
+.dot.green { background: var(--available); }
+.dot.gray { background: var(--offline); }
+
+/* RESOURCE LIST */
+.resource-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-height: 420px;
+  overflow-y: auto;
+  padding-right: 0.3rem;
+}
+
+.resource-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1rem 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.resource-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+}
+
+.resource-card.urgent::before { background: var(--urgent); }
+.resource-card.available::before { background: var(--available); }
+.resource-card.offline::before { background: var(--offline); }
+
+.resource-card:hover {
+  border-color: rgba(255,255,255,0.15);
+  transform: translateX(4px);
+}
+
+.rc-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+}
+
+.rc-icon-name {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.rc-badge {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  padding: 0.2rem 0.6rem;
+  border-radius: 2px;
+}
+
+.rc-badge.urgent { background: rgba(255,59,48,0.15); color: var(--urgent); }
+.rc-badge.available { background: rgba(50,215,75,0.12); color: var(--available); }
+.rc-badge.offline { background: rgba(99,99,102,0.2); color: var(--offline); }
+
+.rc-meta {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-dim);
+  display: flex;
+  gap: 1rem;
+}
+
+.rc-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+}
+
+.rc-btn {
+  flex: 1;
+  padding: 0.35rem 0;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.rc-btn.deliver {
+  background: rgba(50,215,75,0.1);
+  color: var(--available);
+  border: 1px solid rgba(50,215,75,0.2);
+}
+
+.rc-btn.request {
+  background: rgba(255,59,48,0.1);
+  color: var(--urgent);
+  border: 1px solid rgba(255,59,48,0.2);
+}
+
+.rc-btn:hover { opacity: 0.8; }
+/* ==========================================
+   END OF SHOAIB'S CODE (Resource Dashboard Styles)
+   ========================================== */
+
+/* ==========================================
+   START OF RUBAI'S CODE (P2P Network Section Styles)
+   ========================================== */
+/* ===========================
+   NETWORK
+   =========================== */
+.network-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+#networkCanvas {
+  width: 100%;
+  height: 480px;
+  display: block;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.network-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.info-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1.2rem;
+  min-height: 180px;
+}
+
+.info-placeholder {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-dim);
+}
+
+.node-detail-title {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  color: var(--text-dim);
+  margin-bottom: 0.8rem;
+}
+
+.node-detail-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+}
+
+.node-detail-key { color: var(--text-dim); }
+.node-detail-val { color: var(--text); }
+
+.network-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.ns-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1rem 1.2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ns-num {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--available);
+}
+
+.ns-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  text-align: right;
+}
+/* ==========================================
+   END OF RUBAI'S CODE (P2P Network Section Styles)
+   ========================================== */
+
+/* ==========================================
+   START OF RAFI'S CODE (Alerts Section Styles)
+   ========================================== */
+/* ===========================
+   ALERTS
+   =========================== */
+.alerts-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.alert-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.2rem;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  transition: all 0.3s;
+  animation: slide-in 0.4s ease;
+}
+
+@keyframes slide-in {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.alert-item:hover { border-color: rgba(255,255,255,0.15); }
+.alert-item.urgent { border-left: 3px solid var(--urgent); }
+.alert-item.info { border-left: 3px solid var(--available); }
+.alert-item.warning { border-left: 3px solid var(--warning); }
+
+.alert-icon { font-size: 1.2rem; flex-shrink: 0; }
+
+.alert-body { flex: 1; }
+
+.alert-title {
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 0.2rem;
+}
+
+.alert-meta {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  color: var(--text-dim);
+}
+
+.alert-time {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  color: var(--text-dim);
+  flex-shrink: 0;
+}
+/* ==========================================
+   END OF RAFI'S CODE (Alerts Section Styles)
+   ========================================== */
+
+/* ==========================================
+   START OF RUBAI'S CODE (Crisis Mode Overlay Styles)
+   ========================================== */
+/* ===========================
+   CRISIS MODE OVERLAY
+   =========================== */
+.crisis-overlay {
+  position: fixed;
+  inset: 0;
+  background: #0D0000;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.crisis-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.crisis-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid rgba(255,59,48,0.2);
+  background: rgba(255,59,48,0.05);
+}
+
+.crisis-logo {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  letter-spacing: 0.1em;
+  color: var(--urgent);
+  animation: blink 1s step-end infinite;
+}
+
+.crisis-conn {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--available);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.crisis-close {
+  background: transparent;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  padding: 0.5rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.2s;
+}
+
+.crisis-close:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
+
+.crisis-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  padding: 3rem 4rem;
+  flex: 1;
+}
+
+.crisis-action {
+  background: var(--bg3);
+  border: 2px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 2rem;
+  line-height: 1.4;
+}
+
+.crisis-action:first-child { font-size: 2rem; }
+
+.crisis-action.water:hover { border-color: #0A84FF; background: rgba(10,132,255,0.1); transform: scale(1.04); }
+.crisis-action.food:hover { border-color: var(--warning); background: rgba(255,159,10,0.1); transform: scale(1.04); }
+.crisis-action.medical:hover { border-color: var(--urgent); background: rgba(255,59,48,0.15); transform: scale(1.04); box-shadow: 0 0 30px rgba(255,59,48,0.3); }
+.crisis-action.shelter:hover { border-color: #30D158; background: rgba(48,209,88,0.1); transform: scale(1.04); }
+
+.crisis-action.medical {
+  border-color: rgba(255,59,48,0.3);
+  animation: urgent-pulse 1.5s ease-in-out infinite;
+}
+
+.crisis-urgent {
+  background: rgba(255,59,48,0.05);
+  border-top: 1px solid rgba(255,59,48,0.15);
+  padding: 1.2rem 4rem;
+}
+
+.crisis-urgent-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  color: var(--urgent);
+  margin-bottom: 0.8rem;
+}
+
+.crisis-urgent-item {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  padding: 0.4rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.crisis-urgent-item.flash {
+  color: var(--urgent);
+  animation: blink 0.8s step-end infinite;
+}
+
+.crisis-footer {
+  padding: 1rem 4rem;
+  border-top: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+}
+/* ==========================================
+   END OF RUBAI'S CODE (Crisis Mode Overlay Styles)
+   ========================================== */
+
+/* ===========================
+   TOAST
+   =========================== */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.8rem 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: var(--text);
+  z-index: 200;
+  transform: translateY(20px);
+  opacity: 0;
+  transition: all 0.3s;
+  pointer-events: none;
+}
+
+.toast.show { transform: translateY(0); opacity: 1; }
+
+/* ==========================================
+   START OF SHOAIB'S CODE (Supply vs Demand, Donor Tracking, NGO Accounting Styles)
+   ========================================== */
+/* ===========================
+   SUPPLY vs DEMAND SECTION
+   =========================== */
+.supply-summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1.5rem;
+}
+
+.summary-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.summary-item.critical .summary-value {
+  color: var(--urgent);
+}
+
+.summary-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+.summary-value {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--available);
+  line-height: 1;
+}
+
+.summary-divider {
+  grid-column: span 1;
+  height: 1px;
+  background: var(--border);
+  margin-bottom: -1.5rem;
+}
+
+@media (max-width: 900px) {
+  .supply-summary {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .summary-divider {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .supply-summary {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* SUPPLY GRID */
+.supply-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+/* SUPPLY CARD */
+.supply-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1.5rem;
+  transition: all 0.3s;
+}
+
+.supply-card:hover {
+  border-color: rgba(255,255,255,0.12);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+
+/* CARD HEADER */
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.card-icon {
+  font-size: 1.8rem;
+  flex-shrink: 0;
+}
+
+.card-title {
+  font-family: var(--font-ui);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--text);
+  flex: 1;
+}
+
+.card-badge {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  padding: 0.35rem 0.8rem;
+  border-radius: 2px;
+  flex-shrink: 0;
+  font-weight: 700;
+}
+
+.card-badge.shortage {
+  background: rgba(255,159,10,0.15);
+  color: var(--warning);
+  border: 1px solid rgba(255,159,10,0.2);
+}
+
+.card-badge.ok {
+  background: rgba(50,215,75,0.12);
+  color: var(--available);
+  border: 1px solid rgba(50,215,75,0.2);
+}
+
+.card-badge.critical {
+  background: rgba(255,59,48,0.15);
+  color: var(--urgent);
+  border: 1px solid rgba(255,59,48,0.25);
+  animation: urgent-pulse 1.5s ease-in-out infinite;
+}
+
+/* CARD SECTION */
+.card-section {
+  margin-bottom: 1.5rem;
+}
+
+.card-section:last-child {
+  margin-bottom: 0;
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  color: var(--text-dim);
+  margin-bottom: 0.8rem;
+  display: block;
+  text-transform: uppercase;
+}
+
+/* INVENTORY ROWS */
+.inventory-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.inventory-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0.8rem;
+  background: rgba(255,255,255,0.02);
+  border-radius: 2px;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+.inv-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-dim);
+}
+
+.inv-value {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.inv-unit {
+  font-size: 0.55rem;
+  color: var(--text-dim);
+  margin-left: 0.3rem;
+}
+
+/* METRICS ROWS */
+.metrics-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.metric-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0.8rem;
+  background: rgba(255,255,255,0.02);
+  border-radius: 2px;
+  border: 1px solid rgba(255,255,255,0.04);
+  transition: all 0.2s;
+}
+
+.metric-row.critical {
+  background: rgba(255,59,48,0.08);
+  border-color: rgba(255,59,48,0.15);
+}
+
+.metric-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-dim);
+}
+
+.metric-value {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.metric-value.supplied {
+  color: var(--available);
+}
+
+.metric-value.critical {
+  color: var(--urgent);
+}
+
+.metric-unit {
+  font-size: 0.55rem;
+  color: var(--text-dim);
+  margin-left: 0.3rem;
+}
+
+/* PROGRESS BAR SECTION */
+.progress-bar-section {
+  margin-bottom: 1rem;
+  padding: 0.8rem;
+  background: rgba(255,255,255,0.02);
+  border-radius: 2px;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+.progress-bar-section:last-child {
+  margin-bottom: 0;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-dim);
+}
+
+.progress-percent {
+  color: var(--available);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.progress-track {
+  height: 6px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-track.critical {
+  background: rgba(255,59,48,0.1);
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--available), #2AC34F);
+  border-radius: 3px;
+  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 8px rgba(50,215,75,0.4);
+}
+
+.progress-fill.critical {
+  background: linear-gradient(90deg, var(--urgent), #FF6B6B);
+  box-shadow: 0 0 8px rgba(255,59,48,0.4);
+}
+
+/* SOURCE BREAKDOWN */
+.source-breakdown {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.source-item {
+  display: grid;
+  grid-template-columns: 80px 1fr 35px;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.source-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+.source-bar {
+  height: 5px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 2px;
+  overflow: hidden;
+  flex: 1;
+}
+
+.source-segment {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.source-segment.donations {
+  background: linear-gradient(90deg, #0A84FF, #30B0FF);
+}
+
+.source-segment.purchases {
+  background: linear-gradient(90deg, #FF9F0A, #FFB340);
+}
+
+.source-pct {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text);
+  font-weight: 700;
+  text-align: right;
+}
+
+/* ===========================
+   DONOR TRACKING SECTION
+   =========================== */
+.donor-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.donor-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1.2rem;
+  transition: all 0.3s;
+}
+
+.donor-card:hover {
+  border-color: rgba(255,255,255,0.12);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  transform: translateY(-2px);
+}
+
+.donor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.donor-name {
+  font-family: var(--font-ui);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.donor-badge {
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.1em;
+  padding: 0.3rem 0.6rem;
+  border-radius: 2px;
+  background: rgba(50,215,75,0.12);
+  color: var(--available);
+  border: 1px solid rgba(50,215,75,0.2);
+  font-weight: 700;
+}
+
+.donor-badge.top {
+  background: rgba(255,215,0,0.12);
+  color: #FFD700;
+  border-color: rgba(255,215,0,0.2);
+  animation: pulse-glow 1.5s ease-in-out infinite;
+}
+
+.donor-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.item-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0;
+  font-size: 0.75rem;
+}
+
+.item-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.item-name {
+  flex: 1;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+}
+
+.item-qty {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.donor-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.6rem;
+}
+
+.donor-meta {
+  font-family: var(--font-mono);
+  color: var(--text-dim);
+}
+
+.donor-value {
+  font-family: var(--font-mono);
+  color: var(--available);
+  font-weight: 700;
+}
+
+/* ===========================
+   NGO ACCOUNTING SECTION
+   =========================== */
+.accounting-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.accounting-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1.5rem;
+}
+
+.accounting-card.full {
+  grid-column: 1 / -1;
+}
+
+.acc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.acc-header.revenue {
+  border-bottom-color: rgba(50,215,75,0.2);
+}
+
+.acc-header.expense {
+  border-bottom-color: rgba(255,159,10,0.2);
+}
+
+.acc-title {
+  font-family: var(--font-ui);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.acc-amount {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--available);
+  font-weight: 700;
+}
+
+.acc-header.expense .acc-amount {
+  color: var(--warning);
+}
+
+.acc-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.acc-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.acc-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-dim);
+  display: flex;
+  justify-content: space-between;
+}
+
+.acc-value {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.acc-bar {
+  height: 5px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.acc-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.revenue-fill {
+  background: linear-gradient(90deg, var(--available), #2AC34F);
+}
+
+.sponsor-fill {
+  background: linear-gradient(90deg, #0A84FF, #30B0FF);
+}
+
+.grant-fill {
+  background: linear-gradient(90deg, var(--warning), #FFB340);
+}
+
+.expense-fill {
+  background: linear-gradient(90deg, var(--warning), #FFB340);
+}
+
+/* BUDGET OVERVIEW */
+.budget-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.budget-item {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 4px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.budget-label {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.budget-value {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--text);
+  line-height: 1;
+}
+
+.budget-value.positive {
+  color: var(--available);
+}
+
+.budget-status {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  color: var(--text-dim);
+  font-weight: 700;
+}
+
+.budget-status.positive {
+  color: var(--available);
+}
+
+.budget-status.neutral {
+  color: var(--text-dim);
+}
+
+/* MONTHLY CHART */
+.monthly-chart {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  gap: 1rem;
+  height: 200px;
+  padding: 2rem 1rem 1rem;
+  background: rgba(255,255,255,0.01);
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+.month-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  flex: 1;
+}
+
+.month-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-dim);
+  order: 3;
+}
+
+.month-data {
+  display: flex;
+  flex-direction: column;
+  width: 12px;
+  border-radius: 2px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.04);
+  height: 100px;
+  order: 1;
+}
+
+.bar-segment {
+  width: 100%;
+  transition: height 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.month-value {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--available);
+  font-weight: 700;
+  order: 2;
+}
+
+/* ===========================
+   RESPONSIVE - NEW SECTIONS
+   =========================== */
+@media (max-width: 1200px) {
+  .donor-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .budget-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .donor-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .accounting-container {
+    grid-template-columns: 1fr;
+  }
+
+  .budget-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .monthly-chart {
+    height: 150px;
+  }
+
+  .month-data {
+    height: 80px;
+  }
+}
+
+@media (max-width: 600px) {
+  .donor-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
+
+  .budget-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .acc-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
+
+  .monthly-chart {
+    gap: 0.5rem;
+  }
+}
+/* ==========================================
+   END OF SHOAIB'S CODE (Supply vs Demand, Donor Tracking, NGO Accounting Styles)
+   ========================================== */
+
+/* ==========================================
+   START OF SHOAIB'S CODE (Supply-Grid & Summary Card Responsive Adjustments)
+   ========================================== */
+/* ===========================
+   ANIMATIONS
+   =========================== */
+@media (max-width: 900px) {
+  .supply-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .supply-summary {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .summary-value {
+    font-size: 1.6rem;
+  }
+
+  .supply-card {
+    padding: 1.2rem;
+  }
+
+  .card-title {
+    font-size: 1rem;
+  }
+}
+/* ==========================================
+   END OF SHOAIB'S CODE (Supply-Grid & Summary Card Responsive Adjustments)
+   ========================================== */
+
+/* ===========================
+   ANIMATIONS
+   =========================== */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; box-shadow: 0 0 8px currentColor; }
+  50% { opacity: 0.6; box-shadow: 0 0 3px currentColor; }
+}
+
+@keyframes urgent-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255,59,48,0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(255,59,48,0); }
+}
+
+/* ===========================
+   RESPONSIVE
+   =========================== */
+@media (max-width: 900px) {
+  .hero { padding: 5rem 2rem 3rem; }
+  .section { padding: 4rem 2rem; }
+  .dashboard-grid { grid-template-columns: 1fr; }
+  .network-container { grid-template-columns: 1fr; }
+  .crisis-buttons { grid-template-columns: repeat(2, 1fr); padding: 2rem; gap: 1rem; }
+  .hero-stats { flex-wrap: wrap; }
+  .nav-links a { display: none; }
+}
+
+@media (max-width: 600px) {
+  .hero-title { font-size: 5rem; }
+  .crisis-buttons { grid-template-columns: 1fr 1fr; padding: 1rem; }
+}
+
+/* ===========================
+   DONATION BUTTON
+   =========================== */
+/* ==========================================
+   START OF SHOAIB'S CODE (Donation Processing System Styles)
+   ========================================== */
+/* ===========================
+   DONATION BUTTON
+   =========================== */
+.donation-btn {
+  background: linear-gradient(135deg, #FF3B30, #FF6B6B);
+  color: #fff;
+  border: none;
+  padding: 0.4rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.2s;
+  animation: urgent-pulse 2s ease-in-out infinite;
+}
+
+.donation-btn:hover {
+  background: linear-gradient(135deg, #FF2D1F, #FF5555);
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(255,59,48,0.4);
+}
+
+/* ===========================
+   DONATION MODAL
+   =========================== */
+.donation-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  animation: fade-up 0.3s ease-out;
+}
+
+.donation-modal.active {
+  display: flex;
+}
+
+.donation-content {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 3rem;
+  max-width: 600px;
+  width: 90%;
+  max-height: 85vh;
+  overflow-y: auto;
+  position: relative;
+  animation: fade-up 0.3s ease-out;
+}
+
+.donation-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: color 0.2s;
+}
+
+.donation-close:hover {
+  color: var(--text);
+}
+
+.donation-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.donation-header h2 {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.donation-header p {
+  font-size: 0.95rem;
+  color: var(--text-dim);
+}
+
+.donation-types {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.type-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.type-selector h3 {
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.type-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.type-btn {
+  flex: 1;
+  background: var(--surface);
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  padding: 0.8rem;
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.type-btn:hover {
+  border-color: var(--available);
+  color: var(--text);
+}
+
+.type-btn.active {
+  background: var(--urgent);
+  border-color: var(--urgent);
+  color: #fff;
+}
+
+.donation-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.donation-form h3 {
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.donation-form input[type="text"],
+.donation-form input[type="email"],
+.donation-form textarea {
+  width: 100%;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 0.8rem;
+  border-radius: 4px;
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.donation-form input[type="text"]:focus,
+.donation-form input[type="email"]:focus,
+.donation-form textarea:focus {
+  outline: none;
+  border-color: var(--available);
+  background: rgba(50,215,75,0.05);
+}
+
+.amount-presets {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.8rem;
+}
+
+.amount-btn {
+  background: var(--surface);
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  padding: 0.8rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.amount-btn:hover,
+.amount-btn.active {
+  background: var(--urgent);
+  border-color: var(--urgent);
+  color: #fff;
+}
+
+#customAmount {
+  width: 100%;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 0.8rem;
+  border-radius: 4px;
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  box-sizing: border-box;
+}
+
+#customAmount:focus {
+  outline: none;
+  border-color: var(--available);
+  background: rgba(50,215,75,0.05);
+}
+
+#donorName,
+#donorEmail,
+#donorMessage {
+  width: 100%;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 0.8rem;
+  border-radius: 4px;
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+#donorName:focus,
+#donorEmail:focus,
+#donorMessage:focus,
+#customAmount:focus {
+  outline: none;
+  border-color: var(--available);
+  background: rgba(50,215,75,0.05);
+}
+
+#donorMessage {
+  resize: vertical;
+  min-height: 80px;
+  font-family: var(--font-ui);
+}
+
+.resource-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.resource-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.8rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.resource-item:hover {
+  border-color: var(--available);
+  background: rgba(50,215,75,0.05);
+}
+
+.resource-item input[type="checkbox"] {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--urgent);
+}
+
+.resource-item span {
+  flex: 1;
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.resource-item input[type="number"] {
+  width: 100%;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 0.6rem;
+  border-radius: 2px;
+  font-size: 0.85rem;
+  box-sizing: border-box;
+}
+
+.resource-item input[type="number"]:focus {
+  outline: none;
+  border-color: var(--available);
+}
+
+.donate-submit-btn {
+  background: linear-gradient(135deg, var(--available), #40E866);
+  color: #000;
+  border: none;
+  padding: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s;
+  margin-top: 0.5rem;
+}
+
+.donate-submit-btn:hover {
+  background: linear-gradient(135deg, #25D844, #50FF76);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(50,215,75,0.3);
+}
+/* ==========================================
+   END OF SHOAIB'S CODE (Donation Processing System Styles)
+   ========================================== */

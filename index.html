@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resilio – Peer-to-Peer Disaster Resource Mesh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="nav-logo">
+      <span class="logo-pulse"></span>
+      RESILIO
+    </div>
+    <div class="nav-status">
+      <span class="mesh-dot"></span>
+      <span id="mesh-status">MESH ACTIVE</span>
+    </div>
+    <div class="nav-links">
+      <!-- START OF SHOAIB'S CODE (Dashboard Link) -->
+      <a href="#dashboard">Dashboard</a>
+      <!-- END OF SHOAIB'S CODE -->
+
+      <!-- START OF RUBAI'S CODE (Network Link) -->
+      <a href="#network">Network</a>
+      <!-- END OF RUBAI'S CODE -->
+
+      <!-- START OF RAFI'S CODE (Alerts Link) -->
+      <a href="#alerts">Alerts</a>
+      <!-- END OF RAFI'S CODE -->
+
+      <!-- START OF SHOAIB'S CODE (Donate Button) -->
+      <button class="donation-btn" id="donationToggle">💝 DONATE</button>
+      <!-- END OF SHOAIB'S CODE -->
+
+      <!-- START OF RUBAI'S CODE (Crisis Button) -->
+      <button class="crisis-btn" id="crisisToggle">☢ CRISIS MODE</button>
+      <!-- END OF RUBAI'S CODE -->
+
+      <!-- START OF RAFI'S CODE (Sign In Link) -->
+      <a href="auth.html" class="nav-auth-link">SIGN IN</a>
+      <!-- END OF RAFI'S CODE -->
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-content">
+      <div class="hero-tag">ACTIVE IN 14 ZONES · 3,200 NODES ONLINE</div>
+      <h1 class="hero-title">RESILIO</h1>
+      <p class="hero-sub">Peer-to-Peer Disaster Resource Mesh</p>
+      <p class="hero-desc">Real-time resource sharing for disaster zones. Works offline. No internet required. Powered
+        by people.</p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="scrollTo('dashboard')">VIEW DASHBOARD</button>
+        <button class="btn-outline" onclick="scrollTo('network')">JOIN MESH</button>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-card">
+        <span class="stat-num" id="s1">0</span>
+        <span class="stat-label">Resources Shared</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num" id="s2">0</span>
+        <span class="stat-label">Active Nodes</span>
+      </div>
+      <div class="stat-card urgent">
+        <span class="stat-num" id="s3">0</span>
+        <span class="stat-label">Urgent Requests</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       START OF SHOAIB'S CODE (Resource Dashboard)
+       ========================================== -->
+  <!-- DASHBOARD -->
+  <section class="section" id="dashboard">
+    <div class="section-header">
+      <span class="section-tag">LIVE FEED</span>
+      <h2>Resource Dashboard</h2>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">ALL</button>
+      <button class="filter-btn" data-filter="water">💧 WATER</button>
+      <button class="filter-btn" data-filter="food">🍱 FOOD</button>
+      <button class="filter-btn" data-filter="medical">💊 MEDICAL</button>
+      <button class="filter-btn" data-filter="shelter">🏠 SHELTER</button>
+    </div>
+
+    <div class="dashboard-grid">
+      <!-- Map Panel -->
+      <div class="map-panel">
+        <div class="map-header">
+          <span>ZONE MAP — SECTOR 7</span>
+          <span class="map-live">● LIVE</span>
+        </div>
+        <div class="map-canvas" id="mapCanvas">
+          <canvas id="nodeMap"></canvas>
+          <div class="map-legend">
+            <span class="legend-item"><span class="dot red"></span>Urgent</span>
+            <span class="legend-item"><span class="dot green"></span>Available</span>
+            <span class="legend-item"><span class="dot gray"></span>Offline</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resource List -->
+      <div class="resource-list" id="resourceList">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </section>
+  <!-- ==========================================
+       END OF SHOAIB'S CODE (Resource Dashboard)
+       ========================================== -->
+
+  <!-- ==========================================
+       START OF SHOAIB'S CODE (Supply vs Demand Overview)
+       ========================================== -->
+  <!-- SUPPLY vs DEMAND OVERVIEW -->
+  <section class="section" id="supply-demand">
+    <div class="section-header">
+      <span class="section-tag">INVENTORY & LOGISTICS</span>
+      <h2>Supply vs Demand Overview</h2>
+    </div>
+
+    <!-- Summary Card -->
+    <div class="supply-summary">
+      <div class="summary-item">
+        <span class="summary-label">Total Items In Store</span>
+        <span class="summary-value" data-value="9050">0</span>
+      </div>
+      <div class="summary-divider"></div>
+      <div class="summary-item">
+        <span class="summary-label">Total Demand</span>
+        <span class="summary-value" data-value="13500">0</span>
+      </div>
+      <div class="summary-divider"></div>
+      <div class="summary-item">
+        <span class="summary-label">Total Supplied</span>
+        <span class="summary-value" data-value="9050">0</span>
+      </div>
+      <div class="summary-divider"></div>
+      <div class="summary-item critical">
+        <span class="summary-label">Overall Shortage</span>
+        <span class="summary-value" data-value="4450">0</span>
+      </div>
+    </div>
+
+    <!-- Category Cards Grid -->
+    <div class="supply-grid">
+
+      <!-- Water Card -->
+      <div class="supply-card">
+        <div class="card-header">
+          <span class="card-icon">💧</span>
+          <span class="card-title">Water</span>
+          <span class="card-badge shortage">SHORTAGE</span>
+        </div>
+
+        <div class="card-section">
+          <div class="section-label">Inventory Sources</div>
+          <div class="inventory-rows">
+            <div class="inventory-row">
+              <span class="inv-label">In Store Total</span>
+              <span class="inv-value">5,000 <span class="inv-unit">L</span></span>
+            </div>
+            <div class="inventory-row">
+              <span class="inv-label">From Donations</span>
+              <span class="inv-value">3,200 <span class="inv-unit">L</span></span>
+            </div>
+            <div class="inventory-row">
+              <span class="inv-label">From Purchases</span>
+              <span class="inv-value">1,800 <span class="inv-unit">L</span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-section">
+          <div class="section-label">Demand & Supply Metrics</div>
+          <div class="metrics-rows">
+            <div class="metric-row">
+              <span class="metric-label">Current Demand</span>
+              <span class="metric-value">7,000 <span class="metric-unit">L</span></span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-label">Already Supplied</span>
+              <span class="metric-value supplied">5,000 <span class="metric-unit">L</span></span>
+            </div>
+            <div class="metric-row critical">
+              <span class="metric-label">Remaining Needed</span>
+              <span class="metric-value">2,000 <span class="metric-unit">L</span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-section">
+          <div class="section-label">Supply Status</div>
+          <div class="progress-bar-section">
+            <div class="progress-label">
+              <span>Stock vs Demand</span>
+              <span class="progress-percent">71%</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" style="width: 0%" data-target="71%"></div>
+            </div>
+          </div>
+          <div class="progress-bar-section">
+            <div class="progress-label">
+              <span>Supplied vs Remaining</span>
+              <span class="progress-percent">71%</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" style="width: 0%" data-target="71%"></div>
+            </div>
+          </div>
+          <div class="source-breakdown">
+            <div class="source-item">
+              <span class="source-label">Donations</span>
+              <div class="source-bar">
+                <div class="source-segment donations" style="width: 64%"></div>
+              </div>
+              <span class="source-pct">64%</span>
+            </div>
+            <div class="source-item">
+              <span class="source-label">Purchases</span>
+              <div class="source-bar">
+                <div class="source-segment purchases" style="width: 36%"></div>
+              </div>
+              <span class="source-pct">36%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Food Card -->
+      <div class="supply-card">
+        <div class="card-header">
+          <span class="card-icon">🍱</span>
+          <span class="card-title">Food</span>
+          <span class="card-badge ok">SURPLUS</span>
+        </div>
+
+        <div class="card-section">
+          <div class="section-label">Inventory Sources</div>
+          <div class="inventory-rows">
+            <div class="inventory-row">
+              <span class="inv-label">In Store Total</span>
+              <span class="inv-value">2,500 <span class="inv-unit">Packs</span></span>
+            </div>
+            <div class="inventory-row">
+              <span class="inv-label">From Donations</span>
+              <span class="inv-value">1,400 <span class="inv-unit">Packs</span></span>
+            </div>
+            <div class="inventory-row">
+              <span class="inv-label">From Purchases</span>
+              <span class="inv-value">1,100 <span class="inv-unit">Packs</span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-section">
+          <div class="section-label">Demand & Supply Metrics</div>
+          <div class="metrics-rows">
+            <div class="metric-row">
+              <span class="metric-label">Current Demand</span>
+              <span class="metric-value">4,000 <span class="metric-unit">Packs</span></span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-label">Already Supplied</span>
+              <span class="metric-value supplied">2,500 <span class="metric-unit">Packs</span></span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-label">Remaining Needed</span>
+              <span class="metric-value">1,500 <span class="metric-unit">Packs</span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-section">
+          <div class="section-label">Supply Status</div>
+          <div class="progress-bar-section">
+            <div class="progress-label">
+              <span>Stock vs Demand</span>
+              <span class="progress-percent">63%</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" style="width: 0%" data-target="63%"></div>
+            </div>
+          </div>
+          <div class="progress-bar-section">
+            <div class="progress-label">
+              <span>Supplied vs Remaining</span>
+              <span class="progress-percent">63%</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" style="width: 0%" data-target="63%"></div>
+            </div>
+          </div>
+          <div class="source-breakdown">
+            <div class="source-item">
+              <span class="source-label">Donations</span>
+              <div class="source-bar">
+                <div class="source-segment donations" style="width: 56%"></div>
+              </div>
+              <span class="source-pct">56%</span>
+            </div>
+            <div class="source-item">
+              <span class="source-label">Purchases</span>
+              <div class="source-bar">
+                <div class="source-segment purchases" style="width: 44%"></div>
+              </div>
+              <span class="source-pct">44%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Medical Card -->
+      <div class="supply-card">
+        <div class="card-header">
+          <span class="card-icon">💊</span>
+          <span class="card-title">Medical</span>
+          <span class="card-badge critical">CRITICAL</span>
+        </div>
+
+        <div class="card-section">
+          <div class="section-label">Inventory Sources</div>
+          <div class="inventory-rows">
+            <div class="inventory-row">
+              <span class="inv-label">In Store Total</span>
+              <span class="inv-value">1,200 <span class="inv-unit">Units</span></span>
+            </div>
+            <div class="inventory-row">
+              <span class="inv-label">From Donations</span>
+              <span class="inv-value">700 <span class="inv-unit">Units</span></span>
+            </div>
+            <div class="inventory-row">
+              <span class="inv-label">From Purchases</span>
+              <span class="inv-value">500 <span class="inv-unit">Units</span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-section">
+          <div class="section-label">Demand & Supply Metrics</div>
+          <div class="metrics-rows">
+            <div class="metric-row">
+              <span class="metric-label">Current Demand</span>
+              <span class="metric-value">2,000 <span class="metric-unit">Units</span></span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-label">Already Supplied</span>
+              <span class="metric-value supplied">1,200 <span class="metric-unit">Units</span></span>
+            </div>
+            <div class="metric-row critical">
+              <span class="metric-label">Remaining Needed</span>
+              <span class="metric-value">800 <span class="metric-unit">Units</span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-section">
+          <div class="section-label">Supply Status</div>
+          <div class="progress-bar-section">
+            <div class="progress-label">
+              <span>Stock vs Demand</span>
+              <span class="progress-percent">60%</span>
+            </div>
+            <div class="progress-track critical">
+              <div class="progress-fill critical" style="width: 0%" data-target="60%"></div>
+            </div>
+          </div>
+          <div class="progress-bar-section">
+            <div class="progress-label">
+              <span>Supplied vs Remaining</span>
+              <span class="progress-percent">60%</span>
+            </div>
+            <div class="progress-track critical">
+              <div class="progress-fill critical" style="width: 0%" data-target="60%"></div>
+            </div>
+          </div>
+          <div class="source-breakdown">
+            <div class="source-item">
+              <span class="source-label">Donations</span>
+              <div class="source-bar">
+                <div class="source-segment donations" style="width: 58%"></div>
+              </div>
+              <span class="source-pct">58%</span>
+            </div>
+            <div class="source-item">
+              <span class="source-label">Purchases</span>
+              <div class="source-bar">
+                <div class="source-segment purchases" style="width: 42%"></div>
+              </div>
+              <span class="source-pct">42%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shelter Card -->
+      <div class="supply-card">
+        <div class="card-header">
+          <span class="card-icon">🏠</span>
+          <span class="card-title">Shelter</span>
+          <span class="card-badge shortage">SHORTAGE</span>
+        </div>
+
+        <div class="card-section">
+          <div class="section-label">Inventory Sources</div>
+          <div class="inventory-rows">
+            <div class="inventory-row">
+              <span class="inv-label">In Store Total</span>
+              <span class="inv-value">350 <span class="inv-unit">Kits</span></span>
+            </div>
+            <div class="inventory-row">
+              <span class="inv-label">From Donations</span>
+              <span class="inv-value">200 <span class="inv-unit">Kits</span></span>
+            </div>
+            <div class="inventory-row">
+              <span class="inv-label">From Purchases</span>
+              <span class="inv-value">150 <span class="inv-unit">Kits</span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-section">
+          <div class="section-label">Demand & Supply Metrics</div>
+          <div class="metrics-rows">
+            <div class="metric-row">
+              <span class="metric-label">Current Demand</span>
+              <span class="metric-value">500 <span class="metric-unit">Kits</span></span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-label">Already Supplied</span>
+              <span class="metric-value supplied">350 <span class="metric-unit">Kits</span></span>
+            </div>
+            <div class="metric-row critical">
+              <span class="metric-label">Remaining Needed</span>
+              <span class="metric-value">150 <span class="metric-unit">Kits</span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-section">
+          <div class="section-label">Supply Status</div>
+          <div class="progress-bar-section">
+            <div class="progress-label">
+              <span>Stock vs Demand</span>
+              <span class="progress-percent">70%</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" style="width: 0%" data-target="70%"></div>
+            </div>
+          </div>
+          <div class="progress-bar-section">
+            <div class="progress-label">
+              <span>Supplied vs Remaining</span>
+              <span class="progress-percent">70%</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" style="width: 0%" data-target="70%"></div>
+            </div>
+          </div>
+          <div class="source-breakdown">
+            <div class="source-item">
+              <span class="source-label">Donations</span>
+              <div class="source-bar">
+                <div class="source-segment donations" style="width: 57%"></div>
+              </div>
+              <span class="source-pct">57%</span>
+            </div>
+            <div class="source-item">
+              <span class="source-label">Purchases</span>
+              <div class="source-bar">
+                <div class="source-segment purchases" style="width: 43%"></div>
+              </div>
+              <span class="source-pct">43%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <!-- ==========================================
+       END OF SHOAIB'S CODE (Supply vs Demand Overview)
+       ========================================== -->
+
+  <!-- ==========================================
+       START OF SHOAIB'S CODE (Per-Person Donation)
+       ========================================== -->
+  <!-- DONOR TRACKING -->
+  <section class="section dark-section" id="donor-tracking">
+    <div class="section-header light">
+      <span class="section-tag">CONTRIBUTIONS</span>
+      <h2>Per-Person Donations</h2>
+    </div>
+
+    <div class="donor-grid">
+      <div class="donor-card">
+        <div class="donor-header">
+          <span class="donor-name">John Matthews</span>
+          <span class="donor-badge top">⭐ TOP DONOR</span>
+        </div>
+        <div class="donor-items">
+          <div class="item-row">
+            <span class="item-icon">💧</span>
+            <span class="item-name">Drinking Water</span>
+            <span class="item-qty">250 L</span>
+          </div>
+          <div class="item-row">
+            <span class="item-icon">💊</span>
+            <span class="item-name">Medical Kits</span>
+            <span class="item-qty">12 units</span>
+          </div>
+          <div class="item-row">
+            <span class="item-icon">🍱</span>
+            <span class="item-name">Food Packs</span>
+            <span class="item-qty">45 packs</span>
+          </div>
+        </div>
+        <div class="donor-footer">
+          <span class="donor-meta">Donated on May 12</span>
+          <span class="donor-value">Total Value: $450</span>
+        </div>
+      </div>
+
+      <div class="donor-card">
+        <div class="donor-header">
+          <span class="donor-name">Sarah Chen</span>
+          <span class="donor-badge">⭐ ACTIVE</span>
+        </div>
+        <div class="donor-items">
+          <div class="item-row">
+            <span class="item-icon">🏠</span>
+            <span class="item-name">Shelter Kits</span>
+            <span class="item-qty">8 kits</span>
+          </div>
+          <div class="item-row">
+            <span class="item-icon">💧</span>
+            <span class="item-name">Drinking Water</span>
+            <span class="item-qty">180 L</span>
+          </div>
+          <div class="item-row">
+            <span class="item-icon">🍱</span>
+            <span class="item-name">Food Packs</span>
+            <span class="item-qty">32 packs</span>
+          </div>
+        </div>
+        <div class="donor-footer">
+          <span class="donor-meta">Donated on May 13</span>
+          <span class="donor-value">Total Value: $320</span>
+        </div>
+      </div>
+
+      <div class="donor-card">
+        <div class="donor-header">
+          <span class="donor-name">Michael Torres</span>
+          <span class="donor-badge">✓ VERIFIED</span>
+        </div>
+        <div class="donor-items">
+          <div class="item-row">
+            <span class="item-icon">💊</span>
+            <span class="item-name">Medical Supplies</span>
+            <span class="item-qty">25 units</span>
+          </div>
+          <div class="item-row">
+            <span class="item-icon">🍱</span>
+            <span class="item-name">Food Rations</span>
+            <span class="item-qty">60 packs</span>
+          </div>
+          <div class="item-row">
+            <span class="item-icon">💧</span>
+            <span class="item-name">Water Tablets</span>
+            <span class="item-qty">100 tabs</span>
+          </div>
+        </div>
+        <div class="donor-footer">
+          <span class="donor-meta">Donated on May 11</span>
+          <span class="donor-value">Total Value: $380</span>
+        </div>
+      </div>
+
+      <div class="donor-card">
+        <div class="donor-header">
+          <span class="donor-name">Emily Rodriguez</span>
+          <span class="donor-badge">⭐ ACTIVE</span>
+        </div>
+        <div class="donor-items">
+          <div class="item-row">
+            <span class="item-icon">🏠</span>
+            <span class="item-name">Tents</span>
+            <span class="item-qty">5 units</span>
+          </div>
+          <div class="item-row">
+            <span class="item-icon">💧</span>
+            <span class="item-name">Water Purification</span>
+            <span class="item-qty">200 L capacity</span>
+          </div>
+          <div class="item-row">
+            <span class="item-icon">💊</span>
+            <span class="item-name">First Aid Kits</span>
+            <span class="item-qty">15 units</span>
+          </div>
+        </div>
+        <div class="donor-footer">
+          <span class="donor-meta">Donated on May 10</span>
+          <span class="donor-value">Total Value: $290</span>
+        </div>
+      </div>
+
+      <div class="donor-card">
+        <div class="donor-header">
+          <span class="donor-name">David Kim</span>
+          <span class="donor-badge">✓ VERIFIED</span>
+        </div>
+        <div class="donor-items">
+          <div class="item-row">
+            <span class="item-icon">🍱</span>
+            <span class="item-name">Canned Goods</span>
+            <span class="item-qty">80 units</span>
+          </div>
+          <div class="item-row">
+            <span class="item-icon">💧</span>
+            <span class="item-name">Bottled Water</span>
+            <span class="item-qty">120 bottles</span>
+          </div>
+          <div class="item-row">
+            <span class="item-icon">💊</span>
+            <span class="item-name">Pain Relief</span>
+            <span class="item-qty">50 packets</span>
+          </div>
+        </div>
+        <div class="donor-footer">
+          <span class="donor-meta">Donated on May 9</span>
+          <span class="donor-value">Total Value: $210</span>
+        </div>
+      </div>
+
+      <div class="donor-card">
+        <div class="donor-header">
+          <span class="donor-name">Amanda Walsh</span>
+          <span class="donor-badge">⭐ ACTIVE</span>
+        </div>
+        <div class="donor-items">
+          <div class="item-row">
+            <span class="item-icon">💊</span>
+            <span class="item-name">Antibiotics</span>
+            <span class="item-qty">30 units</span>
+          </div>
+          <div class="item-row">
+            <span class="item-icon">🏠</span>
+            <span class="item-name">Blankets</span>
+            <span class="item-qty">40 units</span>
+          </div>
+          <div class="item-row">
+            <span class="item-icon">🍱</span>
+            <span class="item-name">Protein Bars</span>
+            <span class="item-qty">100 bars</span>
+          </div>
+        </div>
+        <div class="donor-footer">
+          <span class="donor-meta">Donated on May 14</span>
+          <span class="donor-value">Total Value: $340</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- ==========================================
+       END OF SHOAIB'S CODE (Per-Person Donation)
+       ========================================== -->
+
+  <!-- ==========================================
+       START OF SHOAIB'S CODE (NGO Accounting & Budget)
+       ========================================== -->
+  <!-- NGO ACCOUNTING -->
+  <section class="section" id="ngo-accounting">
+    <div class="section-header">
+      <span class="section-tag">FINANCIAL</span>
+      <h2>NGO Accounting & Budget</h2>
+    </div>
+
+    <div class="accounting-container">
+      <!-- Revenue Section -->
+      <div class="accounting-card">
+        <div class="acc-header revenue">
+          <span class="acc-title">💰 Revenue & Donations</span>
+          <span class="acc-amount">$28,500</span>
+        </div>
+        <div class="acc-items">
+          <div class="acc-row">
+            <span class="acc-label">Individual Donations</span>
+            <span class="acc-value">$12,340</span>
+            <div class="acc-bar">
+              <div class="acc-fill revenue-fill" style="width: 43%"></div>
+            </div>
+          </div>
+          <div class="acc-row">
+            <span class="acc-label">Corporate Sponsors</span>
+            <span class="acc-value">$9,200</span>
+            <div class="acc-bar">
+              <div class="acc-fill sponsor-fill" style="width: 32%"></div>
+            </div>
+          </div>
+          <div class="acc-row">
+            <span class="acc-label">Government Grants</span>
+            <span class="acc-value">$6,960</span>
+            <div class="acc-bar">
+              <div class="acc-fill grant-fill" style="width: 24%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Expenses Section -->
+      <div class="accounting-card">
+        <div class="acc-header expense">
+          <span class="acc-title">📊 Expenses & Allocation</span>
+          <span class="acc-amount">$22,100</span>
+        </div>
+        <div class="acc-items">
+          <div class="acc-row">
+            <span class="acc-label">Resource Procurement</span>
+            <span class="acc-value">$9,885</span>
+            <div class="acc-bar">
+              <div class="acc-fill expense-fill" style="width: 45%"></div>
+            </div>
+          </div>
+          <div class="acc-row">
+            <span class="acc-label">Logistics & Distribution</span>
+            <span class="acc-value">$7,084</span>
+            <div class="acc-bar">
+              <div class="acc-fill expense-fill" style="width: 32%"></div>
+            </div>
+          </div>
+          <div class="acc-row">
+            <span class="acc-label">Operations & Staff</span>
+            <span class="acc-value">$5,131</span>
+            <div class="acc-bar">
+              <div class="acc-fill expense-fill" style="width: 23%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Budget Overview -->
+      <div class="accounting-card full">
+        <div class="acc-header">
+          <span class="acc-title">📈 Budget Overview</span>
+        </div>
+        <div class="budget-grid">
+          <div class="budget-item">
+            <span class="budget-label">Total Revenue</span>
+            <span class="budget-value">$28,500</span>
+            <span class="budget-status positive">↑ +12%</span>
+          </div>
+          <div class="budget-item">
+            <span class="budget-label">Total Expenses</span>
+            <span class="budget-value">$22,100</span>
+            <span class="budget-status neutral">→ 0%</span>
+          </div>
+          <div class="budget-item">
+            <span class="budget-label">Net Balance</span>
+            <span class="budget-value positive">$6,400</span>
+            <span class="budget-status positive">✓ SURPLUS</span>
+          </div>
+          <div class="budget-item">
+            <span class="budget-label">Efficiency Ratio</span>
+            <span class="budget-value">77.5%</span>
+            <span class="budget-status positive">✓ OPTIMAL</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Monthly Breakdown -->
+      <div class="accounting-card full">
+        <div class="acc-header">
+          <span class="acc-title">📅 Monthly Breakdown (Last 6 Months)</span>
+        </div>
+        <div class="monthly-chart">
+          <div class="month-bar">
+            <span class="month-label">Sep</span>
+            <div class="month-data">
+              <div class="bar-segment revenue-fill" style="height: 45%" title="Revenue"></div>
+              <div class="bar-segment expense-fill" style="height: 38%" title="Expenses"></div>
+            </div>
+            <span class="month-value">+$1.2K</span>
+          </div>
+          <div class="month-bar">
+            <span class="month-label">Oct</span>
+            <div class="month-data">
+              <div class="bar-segment revenue-fill" style="height: 52%" title="Revenue"></div>
+              <div class="bar-segment expense-fill" style="height: 40%" title="Expenses"></div>
+            </div>
+            <span class="month-value">+$1.8K</span>
+          </div>
+          <div class="month-bar">
+            <span class="month-label">Nov</span>
+            <div class="month-data">
+              <div class="bar-segment revenue-fill" style="height: 48%" title="Revenue"></div>
+              <div class="bar-segment expense-fill" style="height: 42%" title="Expenses"></div>
+            </div>
+            <span class="month-value">+$0.9K</span>
+          </div>
+          <div class="month-bar">
+            <span class="month-label">Dec</span>
+            <div class="month-data">
+              <div class="bar-segment revenue-fill" style="height: 58%" title="Revenue"></div>
+              <div class="bar-segment expense-fill" style="height: 44%" title="Expenses"></div>
+            </div>
+            <span class="month-value">+$2.1K</span>
+          </div>
+          <div class="month-bar">
+            <span class="month-label">Jan</span>
+            <div class="month-data">
+              <div class="bar-segment revenue-fill" style="height: 55%" title="Revenue"></div>
+              <div class="bar-segment expense-fill" style="height: 46%" title="Expenses"></div>
+            </div>
+            <span class="month-value">+$1.6K</span>
+          </div>
+          <div class="month-bar">
+            <span class="month-label">May</span>
+            <div class="month-data">
+              <div class="bar-segment revenue-fill" style="height: 62%" title="Revenue"></div>
+              <div class="bar-segment expense-fill" style="height: 48%" title="Expenses"></div>
+            </div>
+            <span class="month-value">+$2.8K</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- ==========================================
+       END OF SHOAIB'S CODE (NGO Accounting & Budget)
+       ========================================== -->
+
+  <!-- ==========================================
+       START OF RUBAI'S CODE (P2P Network View)
+       ========================================== -->
+  <!-- P2P NETWORK VIEW -->
+  <section class="section" id="network">
+    <div class="section-header">
+      <span class="section-tag">MESH TOPOLOGY</span>
+      <h2>Peer-to-Peer Network View</h2>
+    </div>
+    <div class="network-container">
+      <canvas id="networkCanvas"></canvas>
+      <div class="network-info">
+        <div class="info-panel" id="nodeInfo">
+          <p class="info-placeholder">← Tap a node to see details</p>
+        </div>
+        <div class="network-stats">
+          <div class="ns-item"><span class="ns-num">3,241</span><span class="ns-label">Active Nodes</span></div>
+          <div class="ns-item"><span class="ns-num">12,804</span><span class="ns-label">Connections</span></div>
+          <div class="ns-item"><span class="ns-num">98ms</span><span class="ns-label">Avg Latency</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- ==========================================
+       END OF RUBAI'S CODE (P2P Network View)
+       ========================================== -->
+
+  <!-- ==========================================
+       START OF RAFI'S CODE (Live Alerts)
+       ========================================== -->
+  <!-- ALERTS -->
+  <section class="section dark-section" id="alerts">
+    <div class="section-header light">
+      <span class="section-tag">NOTIFICATIONS</span>
+      <h2>Live Alerts</h2>
+    </div>
+    <div class="alerts-container" id="alertsContainer">
+      <!-- Populated by JS -->
+    </div>
+  </section>
+  <!-- ==========================================
+       END OF RAFI'S CODE (Live Alerts)
+       ========================================== -->
+
+  <!-- ==========================================
+       START OF SHOAIB'S CODE (Donate Page / Modal)
+       ========================================== -->
+  <!-- DONATION MODAL -->
+  <div class="donation-modal" id="donationModal">
+    <div class="donation-content">
+      <button class="donation-close" id="donationClose">✕</button>
+      <div class="donation-header">
+        <h2>Support the Cause</h2>
+        <p>Your donation helps save lives in disaster zones</p>
+      </div>
+
+      <div class="donation-types">
+        <div class="type-selector">
+          <h3>Choose Donation Type</h3>
+          <div class="type-buttons">
+            <button class="type-btn active" data-type="monetary">💰 Monetary</button>
+            <button class="type-btn" data-type="resources">📦 Resources</button>
+          </div>
+        </div>
+
+        <!-- Monetary Donation -->
+        <div class="donation-form" id="monetaryForm" style="display: block;">
+          <h3>Monetary Donation</h3>
+          <div class="amount-presets">
+            <button class="amount-btn" data-amount="25">$25</button>
+            <button class="amount-btn" data-amount="50">$50</button>
+            <button class="amount-btn" data-amount="100">$100</button>
+            <button class="amount-btn" data-amount="250">$250</button>
+            <button class="amount-btn" data-amount="500">$500</button>
+            <button class="amount-btn" data-amount="custom">Custom</button>
+          </div>
+          <input type="number" id="customAmount" placeholder="Enter custom amount" min="1" style="display: none;">
+          <input type="text" id="donorName" placeholder="Your name">
+          <input type="email" id="donorEmail" placeholder="Your email">
+          <textarea id="donorMessage" placeholder="Leave a message (optional)"></textarea>
+          <button class="donate-submit-btn" onclick="submitMonetaryDonation()">Proceed to Payment</button>
+        </div>
+
+        <!-- Resource Donation -->
+        <div class="donation-form" id="resourcesForm" style="display: none;">
+          <h3>Resource Donation</h3>
+          <div class="resource-options">
+            <label class="resource-item">
+              <input type="checkbox" name="resource" value="water">
+              <span>💧 Water (Liters)</span>
+              <input type="number" placeholder="Quantity" min="0">
+            </label>
+            <label class="resource-item">
+              <input type="checkbox" name="resource" value="food">
+              <span>🍱 Food (Packs)</span>
+              <input type="number" placeholder="Quantity" min="0">
+            </label>
+            <label class="resource-item">
+              <input type="checkbox" name="resource" value="medical">
+              <span>💊 Medical Supplies (Units)</span>
+              <input type="number" placeholder="Quantity" min="0">
+            </label>
+            <label class="resource-item">
+              <input type="checkbox" name="resource" value="shelter">
+              <span>🏠 Shelter Kits (Units)</span>
+              <input type="number" placeholder="Quantity" min="0">
+            </label>
+          </div>
+          <input type="text" placeholder="Your name">
+          <input type="email" placeholder="Your email">
+          <input type="text" placeholder="Your organization (optional)">
+          <button class="donate-submit-btn" onclick="submitResourceDonation()">Submit Donation</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ==========================================
+       END OF SHOAIB'S CODE (Donate Page / Modal)
+       ========================================== -->
+
+  <!-- ==========================================
+       START OF RUBAI'S CODE (Crisis Mode Overlay)
+       ========================================== -->
+  <!-- CRISIS MODE OVERLAY -->
+  <div class="crisis-overlay" id="crisisOverlay">
+    <div class="crisis-header">
+      <div class="crisis-logo">⚠ CRISIS MODE</div>
+      <div class="crisis-conn">
+        <span class="mesh-dot"></span> MESH CONNECTED
+      </div>
+      <button class="crisis-close" id="crisisClose">✕ EXIT</button>
+    </div>
+    <div class="crisis-buttons">
+      <button class="crisis-action water">💧<br>REQUEST<br>WATER</button>
+      <button class="crisis-action food">🍱<br>REQUEST<br>FOOD</button>
+      <button class="crisis-action medical">🆘<br>REQUEST<br>MEDICAL</button>
+      <button class="crisis-action shelter">🏠<br>REQUEST<br>SHELTER</button>
+    </div>
+    <div class="crisis-urgent">
+      <div class="crisis-urgent-label">URGENT NEARBY</div>
+      <div class="crisis-urgent-item flash">🆘 Medical aid needed — Node #1847 — 0.3km</div>
+      <div class="crisis-urgent-item">💧 Water request — Node #2291 — 0.7km</div>
+    </div>
+    <div class="crisis-footer">
+      <span>OFFLINE MESH MODE · LAST SYNC: 2 MIN AGO · 14 NODES IN RANGE</span>
+    </div>
+  </div>
+  <!-- ==========================================
+       END OF RUBAI'S CODE (Crisis Mode Overlay)
+       ========================================== -->
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
